@@ -3,22 +3,27 @@ import cors from 'cors';
 import * as dotenv from 'dotenv';
 dotenv.config()
 
-import studentRoute from './routes/student.js' //Acomodar el crud y despues intentar añadir el barril
-import connection from './tools/connection.js';
-connection.connect();
+import studentRoute from './routes/student.js'
+import courseRoute from './routes/course.js'
+import professorRoute from './routes/professor.js'
+
 
 const app = express()
 
 app.use(cors());
 app.use(express.json())
 
-app.get('/', (req, res) => {
-    res.json({'msg': "Hola mundo"})
+app.get('/api', (req, res) => {
+    res.json({'msg': "Bienvenidos a la API"})
 })
 
-app.use('/student' ,studentRoute)
+app.use('/api/student' ,studentRoute)
+app.use('/api/course' ,courseRoute)
+app.use('/api/professor' ,professorRoute)
 
-app.listen(process.env.PORT, () => {
-    console.log(`Server running on port ${process.env.PORT}`)
+const PORT = process.env.PORT || 3003
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`)
 })
 

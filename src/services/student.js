@@ -30,10 +30,38 @@ const deleteStudent = async (id) => {
     return ResultSetHeader
 }
 
+const registerCourse = async (studentId, courseId) => {
+    const sqlQuery = 'call registerCourse(?,?)'
+    const [ResultSetHeader] = await poolSQL.query(sqlQuery, [studentId, courseId])
+    return ResultSetHeader
+}
+
+const getRegisterCourse = async (studentId) => {
+    const sqlQuery = 'call getStudentCourse(?)'
+    const [rows] = await poolSQL.query(sqlQuery, [studentId])
+    return rows[0]
+}
+
+const deleteRegisterCourse = async (studentId, courseId) => {
+    const sqlQuery = 'call deleteRegisterCourse(?,?)'
+    const [ResultSetHeader] = await poolSQL.query(sqlQuery, [studentId, courseId])
+    return ResultSetHeader
+}
+
+const deleteAllRegisterStudent = async (studentId) => {
+    const sqlQuery = 'call spDeleteAllRegisterStudent(?)'
+    const [ResultSetHeader] = await poolSQL.query(sqlQuery, [studentId])
+    return ResultSetHeader
+}
+
 export {
     findAll,
     findByOne,
     update,
     insert,
-    deleteStudent
+    deleteStudent,
+    registerCourse,
+    getRegisterCourse,
+    deleteRegisterCourse,
+    deleteAllRegisterStudent
 }

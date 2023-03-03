@@ -1,4 +1,4 @@
-import { deleteStudent, findAll, findByOne, insert, update } from "../services/student.js"
+import { deleteAllRegisterStudent, deleteRegisterCourse, deleteStudent, findAll, findByOne, getRegisterCourse, insert, registerCourse, update } from "../services/student.js"
 import { notFoundData } from "../middleware/notFoundFile.js"
 
 const getAllStudents = async (req, res) => {
@@ -50,10 +50,54 @@ const delStudent = async (req, res) => {
     res.status(statusCode).end()
 }
 
+const getRegisterCourses = async (req, res) => {
+    const id = req.params.studentId
+
+    const courses = await getRegisterCourse(id)
+
+    const { content, statusCode } = notFoundData(courses)
+    
+    res.status(statusCode).json(content)
+}
+
+const registerCourseController = async (req, res) => {
+    const { studentId, courseId } = req.body
+
+    const result = await registerCourse(studentId, courseId)
+
+    const statusCode = result.affectedRows ? 204 : 400
+
+    res.status(statusCode).end()
+}
+
+const delRegister = async (req, res) => {
+    const { studentId, courseId } = req.body
+    
+    const result = await deleteRegisterCourse(studentId, courseId)
+
+    const statusCode = result.affectedRows ? 204 : 400
+
+    res.status(statusCode).end()
+}
+
+const delAllRegister = async (req, res) => {
+    const id = req.params.studentId;
+
+    const result = await deleteAllRegisterStudent(id)
+
+    const statusCode = result.affectedRows ? 204 : 400
+
+    res.status(statusCode).end()
+}
+
 export {
     getAllStudents,
     getStudent,
     createStudent,
     updateStudent,
-    delStudent
+    delStudent,
+    registerCourseController,
+    getRegisterCourses,
+    delRegister,
+    delAllRegister
 }
